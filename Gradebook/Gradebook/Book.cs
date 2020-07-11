@@ -4,10 +4,28 @@ using System.Text;
 
 namespace Gradebook
 {
+    public delegate void GradeAddedDelegate(object sender, EventArgs args);
     public class Book
     {
         List<double> grades;
-        public string name;
+        private string name;
+
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+
+            set
+            {
+                if (string.IsNullOrEmpty(value))
+                {
+                    name = value;
+                }
+            }
+        }
+
 
 
         public Book(string name)
@@ -20,9 +38,24 @@ namespace Gradebook
 
         public void AddGrade(double grade)
         {
-            grades.Add(grade);
+            if (grade <= 100 && grade >= 0)
+            {
 
+                grades.Add(grade);
+                if (gradeAdded != null)
+                {
+                    gradeAdded(this, new EventArgs());
+                }
+
+            }
+
+            else
+            {
+                throw new ArgumentException($"invalid {nameof(grade)}");
+            }
         }
+
+        public event GradeAddedDelegate gradeAdded;
 
         public Statistics GetStatistics()
         {
@@ -39,6 +72,26 @@ namespace Gradebook
             }
 
             result.average /= grades.Count;
+
+            switch (result.average)
+            {
+                case var d when d >= 90.0:
+                    result.letter = 'A';
+                    break;
+                case var d when d >= 80.0:
+                    result.letter = 'B';
+                    break;
+                case var d when d >= 70.0:
+                    result.letter = 'C';
+                    break;
+                case var d when d >= 60.0:
+                    result.letter = 'D';
+                    break;
+                default:
+                    result.letter = 'F';
+                    break;
+
+            }
 
             return result;
 

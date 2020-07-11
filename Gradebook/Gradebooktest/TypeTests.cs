@@ -4,8 +4,26 @@ using Xunit;
 
 namespace Gradebooktest
 {
+    public delegate string Logmessage(string log);
     public class TypeTests
     {
+        [Fact]
+        public void testdelegate()
+        {
+            Logmessage log;
+            //log= new Logmessage(message);
+
+            log = message;
+
+            var result = log("hello");
+            Assert.Equal("hello",result);
+        }
+
+        string message(string message)
+        {
+            return message;
+        }
+
         [Fact]
         public void StringBehavesLikeValueTypes()
         {
@@ -44,8 +62,8 @@ namespace Gradebooktest
             var book1 = GetBook("book1");
             var book2 = GetBook("book2");
 
-            Assert.Equal("book1",book1.name);
-            Assert.Equal("book2",book2.name);
+            Assert.Equal("book1",book1.Name);
+            Assert.Equal("book2",book2.Name);
 
         }
         [Fact]
@@ -57,8 +75,8 @@ namespace Gradebooktest
             //points to the same Reference
             Assert.Same(book1,book2);
 
-            Assert.Equal("book1", book1.name);
-            Assert.Equal("book1", book2.name);
+            Assert.Equal("book1", book1.Name);
+            Assert.Equal("book1", book2.Name);
 
         }
 
@@ -68,7 +86,7 @@ namespace Gradebooktest
             var book1 = GetBook("book1");
             SetName(book1, "New Name");
 
-            Assert.Equal("New Name",book1.name);
+            Assert.Equal("New Name",book1.Name);
 
 
         }
@@ -76,7 +94,7 @@ namespace Gradebooktest
         void SetName(Book book, string name)
         {
 
-            book.name = name;
+            book.Name = name;
         }
         [Fact]
         public void CSharpIsPassByValue()
@@ -84,7 +102,7 @@ namespace Gradebooktest
             var book1 = GetBook("book1");
             GetBookSetName(book1, "New Name");
 
-            Assert.Equal("book1", book1.name);
+            Assert.Equal("book1", book1.Name);
 
 
         }
@@ -101,7 +119,7 @@ namespace Gradebooktest
             var book1 = GetBook("book1");
             RefGetBookSetName( ref book1, "New Name");
 
-            Assert.Equal("New Name", book1.name);
+            Assert.Equal("New Name", book1.Name);
 
 
         }
