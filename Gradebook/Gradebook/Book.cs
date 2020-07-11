@@ -7,7 +7,9 @@ namespace Gradebook
     public class Book
     {
         List<double> grades;
-        private string name;
+        public string name;
+
+
         public Book(string name)
         {
             this.name = name;
