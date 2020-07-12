@@ -16,6 +16,18 @@ class Program
         book.AddGrade(76.8);
 
 
+        EnterGrade(book);
+
+        var stat= book.GetStatistics();
+        Console.WriteLine($"the average is {stat.average}");
+        Console.WriteLine($"the low is {stat.low}");
+        Console.WriteLine($"the high is {stat.high}");
+        Console.WriteLine($"The letter grade is {stat.letter}");
+
+    }
+
+    private static void EnterGrade(Book book)
+    {
         while (true)
         {
             Console.WriteLine("enter a grade or 'q' to quit");
@@ -38,16 +50,8 @@ class Program
             {
                 Console.WriteLine(ex.Message);
             }
-            
         }
-
-        var stat= book.GetStatistics();
-        Console.WriteLine($"the average is {stat.average}");
-        Console.WriteLine($"the low is {stat.low}");
-        Console.WriteLine($"the high is {stat.high}");
-        Console.WriteLine($"The letter grade is {stat.letter}");
-
     }
-    }
+}
     
 }

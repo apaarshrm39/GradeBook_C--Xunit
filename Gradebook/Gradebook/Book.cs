@@ -5,30 +5,36 @@ using System.Text;
 namespace Gradebook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
-    public class Book
+
+    public class NamedObjects
     {
-        List<double> grades;
-        private string name;
-
-        public string Name
+        public NamedObjects(string name)
         {
-            get
-            {
-                return name;
-            }
+            this.name = name;
+        }
+        public string name
+        {
+            get;
+            set;
+        }
+    }
 
-            set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    name = value;
-                }
-            }
+
+    public abstract class BookBase: NamedObjects
+    {
+        protected BookBase(string name) : base(name)
+        {
         }
 
+        public abstract void AddGrade(Double grade);
+    }
+    public class Book : BookBase
+    {
+        private List<double> grades;
 
 
-        public Book(string name)
+
+        public Book(string name): base(name)
         {
             this.name = name;
             grades= new List<double>();
@@ -36,7 +42,7 @@ namespace Gradebook
         }
 
 
-        public void AddGrade(double grade)
+        public override void AddGrade(double grade)
         {
             if (grade <= 100 && grade >= 0)
             {
